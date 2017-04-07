@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+  <!--订阅模式又叫观察者模式，它定义对象间的一种一对多的依赖关系，当一个对象的状
+态发生改变时，所有依赖于它的对象都将得到通知。在 JavaScript 开发中，我们一般用事件模型
+来替代传统的发布—订阅模式。-->
+   <script  type="text/javascript" >
+      var events={
+          clientList:[],
+          listen:function(key,fn) {
+              if(!this.clientList[key]){
+                  this.clientList[key]=[];
+              }
+              this.clientList[key].push(fn);
+          },
+          trigger:function(){
+               var key=Array.prototype.shift.call(arguments),
+                   fns=this.clientList[key];
+                if(!fns|| fns.length===0){
+                    return false;
+                }
+                for(var i=0,fn;fn=fns[i++];){
+                 fn.apply(this,arguments);
+                }
+          }
+      };
+      var installEvent=function(obj){
+           for(var i in events){
+              obj[i]=events[i];
+           }
+      }
+      var salesOffice={};
+        installEvent(salesOffice);
+
+        salesOffice.listen('squareMeter88',function(price){
+            console.log('价格'+ price);
+
+        });
+         salesOffice.listen('squareMeter100',function(price){
+            console.log('价格'+ price);
+
+        });
+        salesOffice.trigger('squareMeter100',20000000);
+        salesOffice.trigger('squareMeter88',30000000);
+
+
+
+
+   </script>
+
+   
+</head>
+<body>
+ 
+</body>
+</html>
