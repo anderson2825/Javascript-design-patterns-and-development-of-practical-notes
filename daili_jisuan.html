@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript">
+        var mult=function() {
+           var a=1;
+           for(i=0,l=arguments.length;i<l;i++){
+                a=a*arguments[i];
+           }
+          return a;
+     }
+
+    console.log(mult(1,2,3));
+
+    //代理缓存计算
+
+    var proxyMult=(function(){
+      var cache={};
+       return function(){
+          var argus=Array.prototype.join.call(arguments,',');
+            if(argus in cache){
+               return cache[argus];
+            }
+            return  cache[argus]=mult.apply(this,arguments);
+       }
+
+    })();
+
+    console.log(proxyMult(4,5,6));
+
+
+
+	</script>
+</head>
+<body>
+ 
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript">
+       //代理模式选中check
+
+    window.onload=function(){
+       var synchonusFile=function(id) {
+            console.log('开始同步id'+id);
+       };
+       var checkbox=document.getElementsByTagName('input');
+       for(var i=0,c;c=checkbox[i++];){
+            c.onclick=function(){
+              console.log('1245');
+                if(this.checked===true){
+                  synchonusFile(this.id);
+                }
+            }
+       };
+
+    }
+ 　    
+
+	</script>
+</head>
+<body>
+	 <input type="checkbox" id="1"/>1
+   <input type="checkbox" id="2"/>2
+   <input type="checkbox" id="3"/>3
+   <input type="checkbox" id="4"/>4
+   <input type="checkbox" id="5"/>5
+   <input type="checkbox" id="6"/>6
+   <input type="checkbox" id="7"/>7
+</body>
+</html>

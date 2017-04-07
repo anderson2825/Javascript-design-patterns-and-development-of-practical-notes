@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript">
+       //策略模式 表单的验证
+
+       window.onload=function() {
+
+        var strategies={
+          isNonEmpty:function(value,erromsg) {
+               if(value===''){
+                  alert(erromsg);
+               }
+          },
+          minlength:function(value,length,erromsg) {
+               if(value.length <length){
+                  alert(erromsg);
+               }
+          },
+          isMobilephone:function(value,erromsg) {
+               if(!/(^1[3|5|8][0-9]{9}$)/.test(value)){
+                  alert(erromsg);
+               }
+          }
+
+        };
+
+        var validatafun=function () {
+             var validator =new Validator();
+             validator.add(registreform.username,'isNonEmpty','用户名不能空');
+             validator.add(registreform.userpass,'minlength:6','密码不能小于6');
+             validator.add(registreform.phonenumber,'isMobilephone','手机号码不正确');
+              var erromsg=validator.start();
+              return erromsg;
+            
+        };
+
+        var registreform=document.getElementById('registerForm');
+
+            registreform.onsubmit=function() {
+                 var erromsg=validatafun();
+                 if(erromsg){
+                    alert(erromsg);
+                    return false;
+                 }
+            };
+
+            var Validator=function ( ) {
+                 this.cache=[];
+            };
+          
+           Validator.prototype.add=function (dom,rule,erroMsg) {
+                var ary=rule.split(':');  //把strategy和参数分开
+                this.cache.push(function( ) {
+                     var strategy= ary.shift();   //删除第一个元素
+                     ary.unshift(dom.value);
+                     ary.push(erroMsg);
+                     return strategies[strategy].apply(dom,ary);
+                }) 
+           };
+
+            Validator.prototype.start=function() {
+                  for(var i=0,validatafun;validatafun=this.cache[i++];){
+                      var msg=validatafun();
+
+                      if(msg){
+                          return msg;
+                      }
+                  }
+            };
+
+
+               
+       }
+ 
+      
+
+	</script>
+</head>
+<body>
+	  <form action="" id="registerForm" method="post">
+          请输入账号 <input type="text" id="username">
+          请输入密码 <input type="password" id="userpass">
+          请输入手机号 <input type="text" id="phonenumber">
+          <button>提交</button>
+    </form>
+</body>
+</html>

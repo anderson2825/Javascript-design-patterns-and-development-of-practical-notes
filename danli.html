@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript">
+      //对象字面量方式
+
+      var namespace1={
+           a:function () {
+               console.log(1);
+           },
+           b:function(){
+            console.log(2);
+           }
+      };
+
+      namespace1.a();
+      namespace1.b();
+
+      var myApp={};
+         myApp.namespace=function(name){
+            var parts=name.split('.');
+            var current=myApp;
+            for (var i in parts) {
+                 if(!current[parts[i]]){
+                     current[parts[i]]={};
+                 }
+                 current= current[parts[i]];
+            };
+         };
+
+         myApp.namespace('hello,world');
+         myApp.namespace('hello.world');
+         console.dir(myApp);
+
+
+     //使用闭包封装私有变量
+     
+      var userInfo=(function(){
+             var name='seve',
+                 age=19;
+             return{
+                 getInfo:function(){
+                   return name+age;
+                 }
+             }    
+
+      })();
+
+      //惰性单例模式  
+
+
+      window.onload=function() {
+            var getSingle=function (fn) {
+               var resuelt;
+               return function() {
+                   return resuelt ||(resuelt = fn.apply(this,arguments))
+               }
+            }
+
+            var loginInstace=function() {
+                 var div1=document.createElement('div');
+                     div1.innerHTML="登录账户窗口";
+                     div1.style.display="none";
+                     document.body.appendChild(div1);
+                     return div1;
+            };
+
+            var createSinglelogin=getSingle(loginInstace);
+            document.getElementById('login').onclick=function () {
+              var createloginInstace=createSinglelogin()
+                  createloginInstace.style.display="block";
+            }
+      }
+
+
+      //策略模式
+         //面向对象写法
+           var   calculateBons=function(perform,salary) {
+                    if(perform==='S'){
+                    return   salary *4;
+                 };
+                    if(perform==='A'){
+                    return   salary *3;
+                 };
+                    if(perform==='C'){
+                    return   salary *2;
+                 };
+                    if(perform==='D'){
+                    return   salary *5;
+                 };
+
+           }
+            console.log(calculateBons('S',1000));
+             console.log(calculateBons('A',500));
+              console.log(calculateBons('D',300));
+
+
+
+        //封装成一块块的函数对象
+
+              var  performS=function() { };
+                 performS.prototype.calculte=function (salaryb) {
+                       return  salaryb*4;
+                 }
+             var  performA=function() { };
+                 performA.prototype.calculte=function (salaryb) {
+                       return  salaryb*3;
+                 }
+             var  performB=function() { };
+                 performB.prototype.calculte=function (salaryb) {
+                       return  salaryb*2 ;
+                 }
+
+           var Bouns=function() {
+                 this.salaryb=null;
+                 this.strtategy=null;
+           };
+
+           Bouns.prototype.setSalaryb=function(salaryb) {
+                 this.salaryb=salaryb;
+           };
+
+            Bouns.prototype.setstrtategy=function(strtategy) {
+                 this.strtategy=strtategy;
+           };
+
+           Bouns.prototype.getSalaryb=function() {
+               return this.strtategy.calculte(this.salaryb); 
+           }
+
+
+        var bounsa=new Bouns();
+            bounsa.setSalaryb(500);
+            bounsa.setstrtategy(new performB());
+           console.log(bounsa.getSalaryb());
+         
+
+        //js里封装函数对象
+          
+
+          var setSalaryC={
+             'S':function (salaryc) {
+                  return  salaryc*4;
+              },
+             'A':function (salaryc) {
+                  return  salaryc*3;
+              },
+             'C':function (salaryc) {
+                  return  salaryc*2;
+              }
+             };
+
+
+            var setcalculte=function (level,salaryc) {
+                  return  setSalaryC[level](salaryc);
+              // body...
+            }
+
+
+            console.log(setSalaryC["A"](600));
+           console.log(setSalaryC["C"](300));
+
+	</script>
+</head>
+<body>
+	  <button id="login" style="width:90px; height:20px; background-color: red; ">登录账户</button>
+</body>
+</html>

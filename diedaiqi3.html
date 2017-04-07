@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+  <!--迭代器判断浏览器类型案例-->
+   <script  type="text/javascript" >
+        var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串
+        var getOpera=function() {
+              var isOpera = userAgent.indexOf("Opera") > -1;
+               if (isOpera) {
+                 console.log("Opera");
+                 }; 
+                return false;
+          };
+
+        var getFF=function(){
+                if (userAgent.indexOf("Firefox") > -1) {
+                    console.log("FF");
+                  } 
+               return false;  
+          }
+
+          var getChrome=function(){
+                 if (userAgent.indexOf("Chrome") > -1){
+            console.log("Chrome");
+               }
+               return false;
+          }
+    
+         var  getIe=function(){
+             if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera) {
+               console.log("IE");
+              }
+              return false;
+         }
+
+         var isBower=function(){
+             for(var i=0,fn;fn=arguments[i++];){
+                var isfnBower=fn();
+                if(isfnBower!==false){
+                    return isfnBower;
+                }
+             }
+         };
+
+         var isfnBower=isBower(getOpera,getIe,getChrome,getFF);
+       
+ 
+   </script>
+
+   
+</head>
+<body>
+ 
+</body>
+</html>

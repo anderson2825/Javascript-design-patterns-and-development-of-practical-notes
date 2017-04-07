@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript">
+       //代理模式img加载
+ 　    window.onload=function( ) {
+          var myImg=(function(){
+              var imgNode=document.createElement('img');
+              document.body.appendChild(imgNode);
+              return {
+                setSrc:function(src){
+                  imgNode.src=src;
+                }
+              }
+          })();
+        var proxyImage=(function(){
+             var img=new Image;
+              img.onload=function(){
+                myImg.setSrc(this.src);
+              }
+
+              return {
+                setSrc:function(src){
+                  myImg.setSrc('../image/div2.jpg');
+                  img.src=src;
+                }
+              }
+        })();
+
+        proxyImage.setSrc('../image/div1.jpg');
+      }
+
+	</script>
+</head>
+<body>
+	 
+</body>
+</html>

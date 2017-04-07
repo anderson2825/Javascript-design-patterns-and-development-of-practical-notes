@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript">
+  //有趣的js  IOU
+ /* console.log(eval((![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]+(!![]+[])[+[]]+"(\""+(((!+[])/(+[])+[])[+[]])+"\\"+(([][[]]+[])[+[]]+(+[])+(+[])+(!+[]+!+[])+(+[]))+"\\"+(([][[]]+[])[+[]]+(!+[]+!+[])+(!+[]+!+[]+!+[]+!+[]+!+[]+!+[])+(!+[]+!+[]+!+[]+!+[]+!+[]+!+[])+(!+[]+!+[]+!+[]+!+[]+!+[]))+"\\"+(([][[]]+[])[+[]]+(+[])+(+[])+(!+[]+!+[])+(+[]))+"\\"+([][[]]+[])[+[]]+(+[])+(+[])+(!+[]+!+[]+!+[]+!+[]+!+[])+(!+[]+!+[]+!+[]+!+[]+!+[])+"\")"));*/
+      //this的指向类型  函数作为对象调用时，this指向该对象！
+    
+     var aFn= {
+              name:"Tom",
+              getName:function( ) {
+                 console.log(this===aFn);
+                 console.log(this.name);
+              } 
+         };
+         aFn.getName();
+    //作为普通函数调用会指向window  
+      window.name='Lucy';
+     var bFn={
+          name:"Jim",
+          getName:function  ( ) {
+             return this.name;
+          }
+           
+         };
+      var  bGetName= bFn.getName; 
+        console.log(bGetName());   
+
+        function funC() {
+          'use strict'
+           console.log(this);
+        }
+        funC();
+     window.onload=function ( ) {
+        window.id="windows";
+        document.getElementById('javaDiv1').onclick=function () {
+             var that=this;
+            console.log(that.id);
+            var callbackfn=function () {
+                 console.log(that.id);
+            }
+          callbackfn();
+        }
+
+          document.getElementById('javaDiv2').onclick=function ( ) {
+          var fun=function () {
+            console.log(this.id);
+          }  
+          fun.call(this)
+     }
+     }
+
+//构造器调用函数
+     var funD= function(){
+         this.name='Lily';
+         return {
+             name:"Lucy"    //显示返回对象
+         }
+
+     };
+
+        var fundObj=new funD();
+        console.log(fundObj.name);
+  
+   var  funF=function(){
+        this.name="Jike";
+        return 'anny';
+   }
+
+   var funfobj=new funF();
+
+   console.log(funfobj.name);
+
+   //call
+   
+    var funG= {
+        name:"jeck",
+        getName:function() {
+            return this.name;
+          }
+      };
+
+  var funH= {
+       name:"funH"
+  }
+
+  console.log(funG.getName());
+  console.log(funG.getName.call(funH));
+
+//call  改版this的指向
+  var funI={
+      name:'funI'
+  }
+  var funL={
+     name:'funL'
+  }
+
+  window.name='funJ';
+  var getNamefn=function() {
+    console.log(this.name);
+  };
+
+  getNamefn();
+  getNamefn.call(funI);
+  getNamefn.call(funL);
+ 
+
+ //Function.prototype.bind用来指定函数内部的this指向
+
+   Function.prototype.bind=function(content) {
+         var self=this;
+         return function(){
+            return self.apply(content,arguments);
+         }
+   };
+
+   var funK={
+      name:"funk"
+   }
+
+   var funM=function(){
+     console.log(this.name)
+
+   }.bind(funK);
+   funM();
+
+   //复杂的Function.prototype.bind用来指定函数内部的this指向
+
+   Function.prototype.bind=function() {
+       var self=this,        //保存原函数                 
+       context=[].shift.call(arguments), //绑定this上下文
+       args=[].slice.call(arguments);   //剩余参数转为数组
+        return function() {
+          return self.apply(context,[].concat.call(args,[].slice.call(arguments) ))
+       }   //执行新函数  会把之前的context当做函数的this  并且组合两次分别传入参数
+
+    }
+
+   var funP={
+      name:'funP'
+   }
+
+   var funU=function(a,b,c,d) {
+        console.log(this.name);
+        console.log([a,b,c,d]);
+   }.bind(funP,1,2);
+
+   funU(3,4);
+
+
+   //构造函数借用
+
+   var funT=function(name) {
+         this.name=name;
+   };
+
+   var  funR=function() {
+         funT.apply(this,arguments);
+   };
+   funR.prototype.getNamefnr=function( ) {
+         return this.name;
+   };
+
+   var funY=new funR('seven');
+       console.log(funY.getNamefnr());
+ 
+ 	</script>
+    
+</head>
+<body>
+	  <div id="javaDiv1" style="background-color: red; width:50px; height: 20px; "></div>
+    <div id="javaDiv2" style="background-color:blue; width:50px; height: 20px; "></div>
+</body>
+</html>

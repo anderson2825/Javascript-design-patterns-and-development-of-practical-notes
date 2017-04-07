@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript">
+      //鸭子类型
+          var duck={
+          	  duckSing:function( ) {
+          	  	 console.log('gagaga');
+          	  }
+          };
+          var chicken={
+          	  duckSing:function() {
+          	  	console.log('gagaga');
+          	  }
+          }
+         
+          var chior=[];
+         var joinChior= function(animal) {
+          	   if(animal&& typeof animal.duckSing==='function' ){
+          	   	   chior.push(animal);
+          	   	   console.log('欢迎加入合唱团!' );
+          	   	   console.log('合唱团的数量' +chior.length);
+          	   }
+
+            }
+
+            joinChior(duck);
+           joinChior(chicken);
+           chicken.duckSing()
+
+     // 多态类型
+       //多态的实际含义 统一操作作用于不同的对象上面，可以产生不同的解释和不同的执行结果！
+
+
+        var makeSound=function (animal) {
+             if(animal instanceof Checked){
+             	 console.log('gegege!');
+
+             }else if(animal instanceof Ducked){
+             	 console.log('gagagaga!');
+             }
+        }
+
+        var Ducked=function() {
+        
+        };
+        var Checked=function() {
+        	
+        };
+
+        makeSound(new Checked());
+        makeSound(new Ducked());
+
+       //对象的多态性
+
+      var Makesound= function(animal) {
+               	 animal.sound();
+            }        
+       var Checked2=function () {
+        }
+        Checked2.prototype.sound=function() {
+        	  console.log('gegege!!!!!');
+        }
+
+        var Duck=function( ) {
+          }
+
+          Duck.prototype.sound=function () {
+          	  console.log('gaga2222!');
+          }
+
+         Makesound(new Checked2());
+         Makesound(new Duck());
+
+
+         //多态的作用性
+         
+        
+           
+         var googleMap= {
+         	   show:function(){
+         	   	   console.log('渲染google地图！');
+         	   }
+         	   
+         };
+
+         var baiduMap={
+         	   show:function() {
+         	  	   console.log('渲染baidu地图！');
+         	  }
+         };
+         
+          var  foundMap=function(userMap) {
+         	     if(userMap.show instanceof Function){
+         	     	  userMap.show();
+         	     }
+         }
+        foundMap(googleMap);
+        foundMap(baiduMap);
+   //chlon模式对象
+       var  bigPlan=function(){
+            this.blood=1000;
+            this.attackLevel=2;
+            this.defenseLevel=1;
+
+          }
+        Object.create=Object.create || function(obj){
+        	   var F=function(){};
+        	   F.prototype =obj;
+
+        	   return new F();
+        }
+        var smallPlan=new bigPlan();
+            smallPlan.blood=800;
+            smallPlan.attackLevel=1;
+            smallPlan.defenseLevel=3;
+        var clonePlan=Object.create(smallPlan);
+        console.log(clonePlan);  
+   
+       var Person=function (name) {
+      	   this.name=name;
+          };
+        Person.prototype.getName=function () {
+     	     return this.name;
+        }
+        
+        var jim=new Person('Tom');
+         console.log(jim.name);
+         console.log(jim.getName());
+
+         console.log(Object.getPrototypeOf(jim)===Person.prototype);
+
+
+         function Person2(name) {
+         	  this.name=name;
+         }
+
+         Person2.prototype.getName=function() {
+         	  return this.name;
+         }
+
+          var objectFactory=function (){
+          	  var obj=new Object();
+          	  Constructor_a=[].shift.call(arguments);
+          	  obj.__proto__=Constructor_a.prototype;
+          	  var ret= Constructor_a.apply(obj,arguments);
+          	   return  typeof ret=== 'object'?ret:obj ;
+          }
+
+          var tom=new objectFactory(Person2,'jim');
+            console.log(tom.name);
+           
+           //原型继承方式：
+
+           var  objN={name:'Lucy'};
+
+            var aFn=function() {  };
+               aFn.prototype=objN;  
+            var aobj=new aFn();
+          console.log(aobj.name); 
+   
+       //原型类继承另一个类 
+
+
+          var  bFn=function ( ) { };
+             bFn.prototype={name:'Lily'};
+           var cFn=function( ) {  };
+             cFn.prototype=new bFn();  
+
+           var cobj=new cFn();
+           
+           console.log(cobj.name);
+             console.log(cobj.addressd);
+
+	</script>
+</head>
+<body>
+	
+</body>
+</html>

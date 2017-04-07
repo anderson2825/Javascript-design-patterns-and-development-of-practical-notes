@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript">
+       var a=1;
+       var funA=function() {
+          var b=2;
+          var funB=function() {
+               var c=3;
+               console.log(a);
+               console.log(b);
+            }
+          funB();
+         // console.log(c)  c在函数funB中没有找到
+         
+       }
+       funA();
+     
+       window.onload=function( ) {
+               var divClass= document.getElementsByClassName('div1');
+                     
+                   for (var i =0; i <divClass.length; i++) {
+                         divClass[i].onclick=function ( ) {
+                              console.log(i);
+                              return false;
+                         }
+                   }
+     //闭包              
+         
+          var div2Class=document.getElementsByClassName('div2');
+              for (var j =0; j <div2Class.length; j++) {
+                    (function(j){
+                         div2Class[j].onclick=function(){
+                            console.log(j)
+                            return false;
+                         }
+                    })(j)
+              }
+
+            var Tv={
+                 open:function () {
+                     console.log('open,tv!');
+                 },
+                 close:function() {
+                    console.log('close,tv!');
+                 }
+               };
+
+            var createCommand=function(receiver){
+                var execute=function(){
+                  return receiver.open();
+                };
+               var undo=function(){
+                  return  receiver.close();
+               };
+               return {
+                  execute:execute,
+                  undo:undo 
+               }
+            };
+
+
+            var setCommand=function(command){
+                 document.getElementById('open_btn').onclick=function(){
+                       command.execute();
+                      };
+                   document.getElementById('close_btn').onclick=function(){
+                      command.undo();
+                  }   
+               };
+
+            setCommand(createCommand(Tv));
+
+             var appendDiv=function(callback){
+                   for (var i = 0; i <= 10; i++) {
+                    var divc=document.createElement('div');
+
+                    divc.innerHTML=i;
+                    document.body.appendChild(divc);
+                     if(typeof callback==='function'){
+                           callback(divc);
+                        }
+                    }
+             };
+
+             appendDiv(function(node){
+                  node.style.display='block';
+             })
+
+            //分时函数
+
+          var timeChunk=function(aryfn,fn,count){
+               var obj,
+                   t;
+                   var len= aryfn.length;
+
+                   var start=function(){
+                      for(var i=0; i<Math.min(count || 1, aryfn.length); i++){
+                           var obj=aryfn.shift();
+                           fn(obj);
+                      }   
+
+                   };
+
+                   return function(){
+                       t=setInterval(function(){
+                           if(aryfn.length===0){
+                               return clearInterval(t);
+                           }
+                           start();
+                       }, 200)
+                   };
+
+                 
+             }
+                   var aryfn=[];
+                   for(var i=1; i<=30; i++){
+                      aryfn.push(i);
+                   };
+                  var renderFriendList=timeChunk(aryfn,function(n){
+                        var div=document.createElement('div');
+                          div.innerHTML=n;
+                          document.body.appendChild(div);
+                   },8);
+
+                   renderFriendList();
+
+
+                   var addEvent=function(elem,type,handler){
+              if(window.addEventListener){
+                   addEvent=function(elem,type,handler){
+                      elem.addEventListener(type,handler,false);
+                   }
+              }else if(window.attachEvent){
+                   addEvent=function(elem,type,handler){
+                       elem.attachEvent('on'+type,handler);
+                   }
+              }
+              addEvent(elem,type,handler);
+          };
+
+
+          var div4=document.getElementById('diva');
+              addEvent(div4,'click',function(){
+                   console.log(1);
+              });
+               addEvent(div4,'click',function(){
+                   console.log(2);
+              })
+
+
+
+            }   //window.onload  ending
+
+              var mutil=function(){
+                   var a=1;
+                   for (var i =0,l=arguments.length;i<l;i++) {
+                          a=a*arguments[i];
+                   }
+                   return a;
+              }
+
+              console.log(mutil(1,2,3));
+
+              var mult=(function ( ) {
+                    var cache={};
+                     var calculate=function () {
+                          var a=1;
+                          for(var i=0,l=arguments.length; i<l;i++){
+                              a=a*arguments[i];
+                          }
+                          return a;
+                      }
+
+                     return function( ) {
+                          var args=Array.prototype.join.call(arguments,',');
+                            if(args in cache){
+                              return cache[args];
+                            }
+                       return  cache[args]=calculate.apply(null,arguments);  
+                     }
+              })();
+
+              console.log(mult(1,2,3));
+
+
+              //使用闭包完成面向对象的案例
+
+            //闭包的写法
+              var extend=function( ) {
+                 var valued=0;
+                 return{ 
+                  call:function() {
+                     valued++;
+                     console.log(valued);
+                 }
+               }
+              }
+
+              var extec=extend();
+                extec.call();
+                 extec.call();
+                  extec.call();
+                   extec.call();
+                    extec.call();
+
+            //面向对象的写法
+
+
+            var extendcd={
+                valued2:0,
+                call:function() {
+                    this.valued2++;
+                    console.log(this.valued2);
+                }
+               }; 
+
+               extendcd.call();
+               extendcd.call();
+
+             var extendcf=function( ) {
+                 this.valuedf=1;
+             }
+
+            extendcf.prototype.call=function () {
+                     this.valuedf++;
+                     console.log(this.valuedf);     
+            }
+        
+        var extendgh=new extendcf();
+            extendgh.call();
+              extendgh.call();
+                extendgh.call();
+         
+         //判断数据类型
+         var Type={};
+
+            for (var i =0,type;type=["String","Array","Number"][i++];) {
+                 (function (type){
+                      Type['is' + type] =function(obj){
+                          return Object.prototype.toString.call(obj)==='[object '+ type +']';
+                      }
+                 })(type)
+            };
+
+            console.log(Type.isArray([]));
+
+            console.log(Type.isNumber('21321'));
+
+        //单例模式
+
+         var getSingle=function(fn){
+              var ret;
+              return function(){
+                   return  ret || (ret == fn.apply(this,arguments));
+              };
+         }
+
+         var getDiv=getSingle(function(){
+
+            document.createElement('div');
+         });
+
+         var getdiv1=getDiv();
+         var getdiv2=getDiv();
+
+         console.log(getdiv1==getdiv2);
+
+         //AOP（面向切面编程）
+
+
+            Function.prototype.before=function(beforefn){
+                  var  _self=this;
+                  return function(){
+                      beforefn.apply(this,arguments);
+                   return    _self.apply(this,arguments);
+                  }
+
+            };
+
+            Function.prototype.after=function(afterfn){
+                 var _self=this;
+                 return function(){
+                     var ret= _self.apply(this,arguments);
+                     afterfn.apply(this,arguments);
+                     return ret;
+                 }
+            };
+
+           var funC=function(){
+               console.log('b');
+           }
+
+           funC=funC.before(function( ) {
+                console.log('a')
+           }).after(function() {
+               console.log('c');
+           })
+
+           funC();
+
+
+           //高阶函数  函数柯里化（curring）
+
+
+           var monthlyCost=0;
+
+           var cost=function(allcost) {
+                monthlyCost+=allcost;  
+           }
+
+           cost(10);
+           cost(20);
+           cost(30);
+
+           console.log(monthlyCost);
+
+
+       var constM=(function(){     //新建一个函数对象
+          var args=[];             //新建一个数组
+          return  function() {     //返回函数
+
+                if(arguments.length===0){   //当参数的长度为0;
+
+                    var money=0;             //money为0；
+   
+                    for (var i =0, l=args.length; i<l;i++) {   //for循环遍历数组的长度 
+                          money+=args[i];                    //money自加args参数
+                     }
+
+                     return money;                           //返回money  
+
+                }else{
+                    [].push.apply(args,arguments);    //在这个函数里插入参数 及个数
+                }
+          }
+
+       })();
+
+       constM(5);
+       constM(10);
+       constM(15);
+
+       console.log(  constM());
+
+
+
+       var curring=function (fn) {
+            var argsd=[];
+            return function() {
+                 if(arguments.length===0 ){
+                   return   fn.apply(this,argsd);
+                 }else{
+                    [].push.apply(argsd,arguments);
+                    return arguments.callee;
+                 }
+            }
+       }
+
+       var costfn=(function( ) {
+             var money=0;
+             return function () {
+                 for (var i =0,l=arguments.length; i<l; i++) {
+                      money+=arguments[i];
+                 }
+                 return money;
+             }
+       })()
+
+    var consmn= curring(costfn);
+     consmn(5);
+     consmn(15);
+     consmn(30);
+
+      console.log(consmn());
+      (function () {
+           Array.prototype.push.call(arguments,4)
+             console.log(arguments);
+         })(1,2,3);
+
+
+          Function.prototype.uncurring=function ( ) {
+                var self=this;
+                 return function () {
+                    var obja=Array.prototype.shift.call(arguments);
+                    return self.apply(obja,arguments);
+                }
+             }
+         var  push= Array.prototype.push.uncurring();
+             (function  (argument) {
+                  push(arguments,4);
+                  console.log(arguments);
+             })(1,2,3);
+
+
+             for (var i =0,fn,ary=['push','shift','forEach']; fn=ary[i++];) {
+                  Array[fn]=Array.prototype[fn].uncurring();
+             }
+
+             var obja={
+               length:4,
+                 '0':7,
+                 '1':2,
+                 '2':3,
+                 '3':4
+            }
+
+            Array.push(obja,5);      //向obja数组中添加参数  
+            console.log(obja.length);   //打印obja的长度
+
+            var first=Array.shift(obja); //截取obja 的数组的第一个参数
+              console.log(first);
+             Array.forEach(obja,function(i,n){
+                  console.log(n);
+             })
+      
+
+         //函数节流  尽量少触发函数，降低调用频率
+
+          var throttle=function(fn,interval){
+                var _self=fn,    //保存需要被延迟执行的函数引用
+                    timer,       //定时器   
+                    firstTimer=true;  //是否是第一次调用
+              
+              return function(){
+                    var args=arguments,
+                    _me=this;
+
+                    if(firstTimer){      //如果是第一次调用 就不需要延迟
+                       _self.apply(_me,args);
+                       return firstTimer=false;
+                    } 
+                    if(timer){      //如果定时器还在，说明前一次延迟的执行还没有完成
+                         return false;
+                    };
+
+                    timer=setTimeout(function(){      //延迟一段时间执行
+                         clearTimeout(timer);
+                         timer=null;
+                         _self.apply(_me,args);
+                    },interval || 500);
+              };
+
+          };
+
+
+          window.onresize = throttle(function(){
+               console.log(1);
+          },500);
+
+     
+
+ 	</script>
+    
+</head>
+<body>
+    <style>
+       .div1,.div2,.div4{width: 20px; height: 20px; float:left; margin-left: 10px; background-color: #ccc;}
+       .btn_tv{width: 100px; height: 50px; background-color: #f00; color: #fff;}
+    </style>
+	   <div class="div1">1</div>
+     <div class="div1">2</div>
+     <div class="div1">3</div>
+     <div class="div1">4</div>
+     <div class="div1">5</div>
+     <div class="div2">10</div>
+     <div class="div2">11</div>
+     <div class="div2">12</div>
+     <div class="div2">13</div>
+     <div class="div2">14</div>
+     <button class="btn_tv" id="open_btn">open,TV</button>
+     <button class="btn_tv" id="close_btn">close,TV</button>
+     <div id="diva" class="div4"></div>
+
+</body>
+</html>

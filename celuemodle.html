@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript">
+       //策略模式 运动的小球
+
+         window.onload=function() {
+               var town={
+                   linear:function(t,b,c,d) {    //t动画消耗的时间 b开始的位置 c结束到开始位置的距离  d 动画持续的总时间
+                      return c*t/d+b;
+                   },
+                    easeIn:function(t,b,c,d) {
+                      return  c*(t/=d)*t+b;
+                   },
+                   strongEaseIn:function(t,b,c,d) {
+                      return c*(t/=d)*t*t*t*t+b;
+                   },
+                    strongEaseOut:function(t,b,c,d) {
+                      return c*((t=t/d-1)*t*t*t*t + 1 ) + b;
+                   },
+                   sineaseIn:function(t,b,c,d) {
+                      return c*(t/=d)*t*t+b;
+                   },
+                   sineaseOut:function(t,b,c,d) {
+                      return c * ( ( t = t / d - 1) * t * t + 1 ) + b;
+                   }
+                    
+               };
+
+                
+                var Animated=function(dom) {
+                     this.dom=dom;
+                     this.startTimer=0;
+                     this.startPos=0;
+                     this.endPos=0;
+                     this.porperName=null;
+                     this.duration=null;
+                     this.easing=null;
+                   }
+             Animated.prototype.start=function  (porperName,endPos,duration,easing) {
+                   this.startTimer=+new Date;
+                   this.startPos = this.dom.getBoundingClientRect()[porperName];
+                   this.porperName= porperName;
+                   this.endPos=endPos;
+                   this.duration=duration;
+                   this.easing=town[easing];
+
+                   var self=this;
+                   var timeId=setInterval(function(){
+                       if(self.step()===false){
+                           clearInterval(timeId);
+                       }
+                   },19)
+               };
+
+
+               Animated.prototype.step=function() {
+                    var t= +new Date;
+                    if(t>=this.startTime + this.duration){
+                        this.undate(this.endPos);
+                        return false;
+                    };
+
+                    var pos=this.easing(t- this.startTimer,this.startPos,this.endPos-this.startPos,this.duration);
+
+                       this.update(pos);
+               };
+
+               Animated.prototype.update=function(pos) {
+                     this.dom.style[this.porperName]=pos + 'px';
+               }
+              
+
+              var div1= document.getElementById('div1');
+                 var animated=new Animated(div1);
+              animated.start('left',10,10000,'easeIn');
+                 
+         }
+
+      
+
+	</script>
+</head>
+<body>
+	 <div id="div1" style="position:absolute; border-radius: 50%; width: 50px; height: 50px; background-color: red;"></div>
+</body>
+</html>

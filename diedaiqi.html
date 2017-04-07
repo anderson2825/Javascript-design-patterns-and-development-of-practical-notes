@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+  <!--实现自己的迭代器-->
+	
+  <style>
+   *{padding: 0; margin: 0;}\
+    li{list-style: none;}
+    #dieUl li{float: left; width: 50px; height: 40px; margin-left: 20px; font-size: 14px;cursor: pointer;}
+    #dieUl li div{display: none;}
+  </style>
+</head>
+<body>
+    <ul id="dieUl">
+      <li>1212<div>abc</div></li>
+      <li>3434<div>abc45</div></li>
+      <li>5656<div>abc58</div></li>
+      <li>7878<div>abc78</div></li>
+      <li>1010<div>abc34</div></li>
+      <li>5858<div>abc89</div></li>
+      <li>6969<div>abc20</div></li>
+    </ul>
+    <script type="text/javascript">
+    window.onload=function(){
+      var dieUl=document.getElementById('dieUl');
+      var dieli=dieUl.getElementsByTagName('li');
+      var eachanyone=function(itmes,callback) {
+           var itmes=dieli;
+          for(i=0,l=itmes.length;i<l;i++){
+               callback(itmes[i],i);
+           };
+      };
+       eachanyone(dieli,function(n,i){
+           n.onclick=function(){
+            
+            if(n.style.color==='red'){
+             n.style.color='green'
+            }else{
+             n.style.color='red';
+               }
+             
+           }
+            });
+
+     }
+
+  </script>
+</body>
+</html>
