@@ -9,7 +9,7 @@
 态发生改变时，所有依赖于它的对象都将得到通知。在 JavaScript 开发中，我们一般用事件模型
 来替代传统的发布—订阅模式。-->
    <script  type="text/javascript" >
-      var events={
+      var events={                                                
           clientList:[],
           listen:function(key,fn) {
               if(!this.clientList[key]){
@@ -28,6 +28,26 @@
                 }
           }
       };
+      events.remove=function(key,fn){
+        var fns=this.clientList[key];  
+        if(!fns){
+           return  false;
+        };
+
+        if(!fn){
+            fns && (fns.length=0);
+        }else{
+            
+            for(var l=fns.length-1;l>=0;l--){
+                 var _fn= fns[l];
+                 if(_fn===fn){
+                    fns.split(1,1);   
+                 }
+
+            }
+
+        }   
+      }
       var installEvent=function(obj){
            for(var i in events){
               obj[i]=events[i];
@@ -36,17 +56,17 @@
       var salesOffice={};
         installEvent(salesOffice);
 
-        salesOffice.listen('squareMeter88',function(price){
+        salesOffice.listen('squareMeter88',fn1=function(price){
             console.log('价格'+ price);
 
         });
-         salesOffice.listen('squareMeter100',function(price){
+         salesOffice.listen('squareMeter100',fn2=function(price){
             console.log('价格'+ price);
 
         });
+        salesOffice.trigger('squareMeter88',fn1);
         salesOffice.trigger('squareMeter100',20000000);
-        salesOffice.trigger('squareMeter88',30000000);
-
+       
 
 
 
