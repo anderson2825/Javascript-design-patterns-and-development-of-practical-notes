@@ -41,7 +41,7 @@
             for(var l=fns.length-1;l>=0;l--){
                  var _fn= fns[l];
                  if(_fn===fn){
-                    fns.split(1,1);   
+                    fns.splice(1,1);   
                  }
 
             }
@@ -64,7 +64,7 @@
             console.log('价格'+ price);
 
         });
-        salesOffice.trigger('squareMeter88',fn1);
+        salesOffice.remove('squareMeter88',fn1);
         salesOffice.trigger('squareMeter100',20000000);
        
 
