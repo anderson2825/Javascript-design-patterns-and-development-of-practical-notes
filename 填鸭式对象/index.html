@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<script type="text/javascript">
+		var duck = {
+			duckSinging:function() {
+				 console.log("gagaga");
+			}
+		};
+
+		var chicken = {
+			duckSinging:function(){
+				console.log("gagaga");
+			}
+		};
+
+		var chior = [];
+
+		var joinChior = function (animal){
+			if(animal && typeof animal.duckSinging === 'function'){
+				chior.push(animal);
+				console.log("恭喜加入合唱团");
+				console.log("合唱团成员数量"+chior.length);
+			}
+		}
+
+		joinChior(duck);
+		joinChior(chicken);
+	</script>
+	
+</body>
+</html>
