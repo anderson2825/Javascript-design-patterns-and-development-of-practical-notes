@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<script type="text/javascript">
+		var person = function(name) {
+			this.name = name;
+		}
+		person.prototype.getName=function(){
+			return this.name;
+		}
+
+		var a = new person("anderson");
+		console.log(a.name);
+		console.log(a.getName());
+		console.log(Object.getPrototypeOf(a) === person.prototype);
+	</script>
+</body>
+</html>

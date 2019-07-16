@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<div id="div1">div1</div>
+	<script  type="text/javascript">
+		document.getElementById("div1").onclick=function(){
+			console.log(this.id);
+			var func = function(){
+				console.log(this.id);
+			}
+			func.call(this); /*这时候我们用 call 来修正 func 函数内的 this，使其依然指向 div：*/
+		}
+		 
+	</script>
+</body>
+</html>

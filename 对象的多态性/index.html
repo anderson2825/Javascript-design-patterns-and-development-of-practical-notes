@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<script type="text/javascript">
+		var makeSounds = function(animal){
+			animal.sound();
+		}
+		var duck = function(){ };
+
+		duck.prototype.sound = function() {
+			console.log("嘎嘎嘎");
+		};
+
+		var chicken = function(){};
+
+		chicken.prototype.sound = function(){
+			console.log("咯咯咯");
+		}
+
+		makeSounds(new duck());
+		makeSounds(new chicken());
+	</script>
+	
+</body>
+</html>
