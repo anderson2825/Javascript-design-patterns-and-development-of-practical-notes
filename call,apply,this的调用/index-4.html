@@ -8,13 +8,17 @@
 </head>
 <body>
 	<script  type="text/javascript">
-		var myClass =function() {
-			this.name="sevn";
-			return 'anderson';
+		var A = function (name) {
+			this.name = name;
 		}
-		var obj = new myClass();
-		console.log(obj.name);
-
+		var B = function (){
+			A.apply(this,arguments);
+		}
+		B.prototype.getName = function() {
+			return this.name;
+		};
+		var b = new B("boo");
+		console.log(b.getName());
 	</script>
 </body>
 </html>
