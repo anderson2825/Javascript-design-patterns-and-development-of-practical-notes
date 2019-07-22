@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<button id="execute">点击我执行</button>
+	<button id="undo">点击我停止执行</button>
+
+	<script type="text/javascript">
+		var TV = {
+			open:function(){
+				console.log("open tv");
+			},
+			close:function(){
+				console.log("close tv");
+			}
+		};
+
+		var creatCommand = function (recever) {
+			var execute = function(){
+				return recever.open();
+			}
+			var undo = function(){
+				return recever.undo();
+			}
+			return {
+				execute:execute,
+				undo:undo
+			}		
+		};
+		var setCommand = function(command){
+			document.getElementById("execute").onclick=function(){
+				console.log('opens');
+				command.open();
+			};
+			document.getElementById("undo").onclick=function(){
+				command.close();
+			}
+		}
+		setCommand(creatCommand(TV));
+	</script>
+</body>
+</html>
