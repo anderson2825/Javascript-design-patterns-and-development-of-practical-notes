@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<script  type="text/javascript">
+		
+/*		var mult = function () {
+			var cache = {};
+			var args = Array.prototype.join.call(arguments,',');
+			if ( cache[args] ) {
+				return cache[args];
+			}
+			var a = 1;
+			for ( var i =0, l = arguments.length; i<l;i++ ) {
+				a = a * arguments[i];
+			}
+			return cache[ args ] = a;
+		}
+		console.log( mult( 1,2,3 ) );
+		console.log( mult( 4,5,6 ) );
+*/		
+/*		提炼函数是代码重构中的一种常见技巧。如果在一个大函数中有一些代码块能够独立出来，
+		我们常常把这些代码块封装在独立的小函数里面。独立出来的小函数有助于代码复用，如果这些
+		小函数有一个良好的命名，它们本身也起到了注释的作用。如果这些小函数不需要在程序的其他
+		地方使用，最好是把它们用闭包封闭起来。代码如下：	
+*/		
+
+		var mult = (function(){
+			var cache = {};
+			var calculate = function(){    /*封装 calculate 函数 */
+				var a = 1;
+				for( var i = 0, l = arguments.length; i<l; i++){
+					a = a*arguments[i];
+				}
+				return a;
+			};
+
+			return function () {
+				 var args = Array.prototype.join.call(arguments,',');
+				 if ( args in cache ){
+				 	return cache[ args ];
+				 }
+				 return cache[args] = calculate.apply( null, arguments );
+			}
+		})();
+		console.log( mult(1,2,3) );
+	</script>
+</body>
+</html>
